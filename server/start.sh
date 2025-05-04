@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ ! -e "./db-initiated" ]; then
-    sleep 10
+if [ ! -e "./vars/db-initiated" ]; then
+    sleep 5
     echo "y" | dotnet exec FSO.Server.Core.dll db-init
-    touch db-initiated
+    touch vars/db-initiated
 else
 #while [ $? -ne 2 ]; do
     #mono watchdog.exe run --core

@@ -2,3 +2,6 @@ config.json
 server/FreeSOServer
 game
 nfs
+auth/database.db
+auth/.env
+vars

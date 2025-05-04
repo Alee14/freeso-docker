@@ -20,20 +20,29 @@ services:
       - ./config.json:/app/config.json
       - ./game:/app/game
       - ./nfs:/app/nfs
+      - ./vars:/app/vars
     restart: unless-stopped
     depends_on:
       - db
     ports:
       - 35:35
       - 34:34
+      - 35101:35101
+      - 33101:33101
+      - 34101:34101
       - 9000:9000
     networks:
       - freeso
       
-  #bnbso-auth:
-  #  image: bnbso-auth
-  #  ports:
-  #    - "127.0.0.1:3060:3000"
+  auth:
+    image: freeso-auth
+    volumes:
+      - ./auth/.env:/app/.env
+      - ./auth/database.db:/app/database.db
+    ports:
+      - "127.0.0.1:3000:3000"
+    networks:
+      - freeso
 
 volumes:
   db:
