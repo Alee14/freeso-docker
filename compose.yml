@@ -4,11 +4,12 @@ services:
     volumes:
       - db:/var/lib/mysql
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
-      MARIADB_USER: fsoserver
-      MARIADB_PASSWORD: password
-      MARIADB_DATABASE: fso
-      MARIADB_ROOT_PASSWORD: wordpass
+      MARIADB_USER: ${DB_USERNAME}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_DATABASE: ${DB_NAME}
     ports:
       - 3306:3306
     networks:
@@ -21,7 +22,7 @@ services:
       - ./game:/app/game
       - ./nfs:/app/nfs
       - ./vars:/app/vars
-    restart: unless-stopped
+    restart: on-failure
     depends_on:
       - db
     ports:
@@ -39,6 +40,7 @@ services:
     volumes:
       - ./auth/.env:/app/.env
       - ./auth/database.db:/app/database.db
+    restart: unless-stopped
     ports:
       - "127.0.0.1:3000:3000"
     networks:
