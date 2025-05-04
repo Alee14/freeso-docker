@@ -1,0 +1,42 @@
+services:
+  db:
+    image: mariadb:10.5
+    volumes:
+      - db:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      MARIADB_USER: fsoserver
+      MARIADB_PASSWORD: password
+      MARIADB_DATABASE: fso
+      MARIADB_ROOT_PASSWORD: wordpass
+    ports:
+      - 3306:3306
+    networks:
+      - freeso
+
+  server:
+    image: freeso
+    volumes:
+      - ./config.json:/app/config.json
+      - ./game:/app/game
+      - ./nfs:/app/nfs
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - 35:35
+      - 34:34
+      - 9000:9000
+    networks:
+      - freeso
+      
+  #bnbso-auth:
+  #  image: bnbso-auth
+  #  ports:
+  #    - "127.0.0.1:3060:3000"
+
+volumes:
+  db:
+networks:
+  freeso:
+    driver: bridge
