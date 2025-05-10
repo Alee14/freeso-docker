@@ -23,6 +23,7 @@ services:
       - ./game:/app/game
       - ./nfs:/app/nfs
       - ./vars:/app/vars
+      - ./updates:/app/updates
     restart: on-failure
     depends_on:
       - db
